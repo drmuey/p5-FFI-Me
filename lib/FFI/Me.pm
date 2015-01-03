@@ -16,8 +16,6 @@ sub import {
 sub ffi {
     my ( $name, %args ) = @_;
 
-    # $args{lib} = (ffi_get_lib() || undef) if !exists $args{lib};
-    # $args{lib} = _norm_lib($args{lib}) if defined $args{lib};
     $args{sym} = $name       if !exists $args{sym} || !defined $args{sym};
     $args{rv}  = ffi::void() if !exists $args{rv}  || !defined $args{rv};
     $args{arg} = []          if !exists $args{arg};
@@ -29,20 +27,6 @@ sub ffi {
     *{ $caller . '::' . $name } = sub { shift if $args{method}; return $code->call(@_) };
 
     return;
-}
-
-# sub _norm_lib {
-#     my ($lib) = @_;
-#
-#     return $lib if !defined $lib;
-#     return if $lib =~ m/\./; # TODO: smarter!  patches welcome
-#
-#     my $ext = $^O eq 'darwin' ? 'dylib' : 'so'; # TODO: smarter! patches welcome
-#     return "$lib.$ext";
-# }
-
-sub ffi_types {
-    return (qw(void int uint short ushort long ulong int64 uint64 char uchar float double str ptr));
 }
 
 *ffi::void   = \&FFI::Raw::void;
@@ -165,11 +149,7 @@ Default: false
 
 =back
 
-=head2 ffi_types()
-
-ffi_types() is not exported or exportable.
-
-Returns a list of all available types.
+=head2 Types
 
 Each type has a function that will return the type suitable for “rv” and “arg”.
 
