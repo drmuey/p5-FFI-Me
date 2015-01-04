@@ -91,7 +91,7 @@ Note: To make your code more portable you could do something like:
 
 or use something like L<FFI::CheckLib>.
 
-See </TODO>.
+See L</TODO>.
 
 =head1 DESCRIPTION
 
