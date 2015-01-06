@@ -48,14 +48,15 @@ if ( !$lib ) {
 }
 
 if ($lib) {
-    ffi cos => (
-        lib => $lib,
-        rv  => ffi::double,
-        arg => [ffi::double],
-    );
+    eval { ffi cos => ( lib => $lib, rv => ffi::double, arg => [ffi::double] ); };
 
-    ok( defined &cos, 'lib results exists' );
-    cmp_ok( cos(1.2), '>', 0, "lib results works" );
+    if ($@) {
+        diag "Skipping lib tests because /usr/lib/libm.[so|dylib] exists but has issues: $@";
+    }
+    else {
+        ok( defined &cos, 'lib results exists' );
+        cmp_ok( cos(1.2), '>', 0, "lib results works" );
+    }
 }
 else {
     diag "Skipping lib tests (/usr/lib/libm.[so|dylib] does not exist)";

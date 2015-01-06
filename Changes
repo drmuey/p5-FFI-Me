@@ -1,5 +1,8 @@
 Revision history for FFI-Me
 
+???
+    Skip lib test when target lib exists but is wonky.
+
 0.01  2015-01-03 13:20:38
        Initial release.
 
